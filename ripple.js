@@ -8,8 +8,8 @@ class Ring{
 
     tic() {
         this.radius += 1;
-        this.opacity -= 0.002;
-        if (this.opacity <= 0) {
+        this.opacity *= 0.99;
+        if (this.opacity < 0.02) {
             return false;
         } else {
             return true;
@@ -25,7 +25,7 @@ class Ripple {
         this.g = g;
         this.b = b;
         this.t = 0;
-        this.curOp = .65;
+        this.curOp = this.calcOp();
         this.count = 0;
         this.circles = [];
     }
@@ -41,13 +41,17 @@ class Ripple {
         if (Math.pow(Math.E, DECAY * this.t) > 0.2 || this.curOp > 0.01) {
             this.circles.push(new Ring(this.curOp));
             this.t += 0.025;
-            this.curOp = Math.pow(Math.E, DECAY * this.t)*Math.pow(Math.cos(this.t), 2)
+            this.curOp = this.calcOp();
             this.count++;
         }
         this.drawCircles();
         while (removals.length > 0) {
             this.circles.splice(removals.pop(), 1);
         }
+    }
+
+    calcOp() {
+        return Math.pow(Math.E, DECAY * this.t)*Math.pow(Math.cos(this.t), 2)
     }
 
     drawCircles() {
