@@ -134,9 +134,10 @@ async function action() {
         await new Promise(resolve => {
             setTimeout(() => {
                 resolve(tic());
-            }, 0.5);
+            }, 0.1);
         });
     }
+    clear();
     inAction = false;
 }
 
